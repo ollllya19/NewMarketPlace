@@ -7,3 +7,13 @@ class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = '__all__'
+
+
+class ProductsSerializer(serializers.BaseSerializer):
+    def to_representation(self, instance):
+        return {
+            'id': instance.id,
+            'title': instance.title,
+            'description': instance.description,
+            'description': instance.description,
+        }

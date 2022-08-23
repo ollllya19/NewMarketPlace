@@ -19,7 +19,7 @@ class Farmer(models.Model):
 class Product(models.Model):
     title = models.CharField(max_length=20)
     description = models.CharField(max_length=500)
-    farmer_id = models.ForeignKey(Farmer, on_delete=models.CASCADE)
+    farmer = models.ForeignKey(Farmer, on_delete=models.CASCADE)
     
     class Meta:
         verbose_name = "Product"

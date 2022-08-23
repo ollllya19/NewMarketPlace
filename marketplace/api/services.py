@@ -3,7 +3,7 @@ import requests
 from rest_framework import status
 from rest_framework.response import Response
 
-from api.serializers import ProductSerializer
+from api.serializers import ProductsSerializer
 from api.repositories import ProductRepository
 
 
@@ -17,6 +17,6 @@ class ProductViewSetService:
 
     def execute_get(self):
         queryset = ProductRepository.get_all()
-        serializer = ProductSerializer(queryset, many=True)
+        serializer = ProductsSerializer(queryset, many=True)
         return Response(serializer.data)
     

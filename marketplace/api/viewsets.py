@@ -1,13 +1,10 @@
-from rest_framework.permissions import AllowAny
 from rest_framework.viewsets import ModelViewSet
 
 from api.serializers import ProductSerializer
-from api.services import ProductViewSetService
-
-
+from api.models import Product
+from api.models import Farmer
+    
+    
 class ProductViewSet(ModelViewSet):
-    permission_classes = (AllowAny,)
+    queryset = Product.objects.filter(farmer=Farmer.objects.get(id=3))
     serializer_class = ProductSerializer
-
-    def get_queryset(self):
-        return ProductViewSetService().execute_get()
