@@ -14,4 +14,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('marketplace/', include(router.urls)),
     path('marketplace/', include('api.urls')),
+    path('auth/', include('djoser.urls')),
+    path('auth/', include('djoser.urls.jwt')),
 ]
