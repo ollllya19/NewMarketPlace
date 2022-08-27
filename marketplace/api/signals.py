@@ -2,10 +2,12 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-from .models import Farmer
+from customer.models import Order
+from api.task import create_package_from_order
 
 
-@receiver(post_save, sender=User)
-def create_profile(sender, instance, created, **kwargs):
-    if created:
-        Farmer.objects.create(user=instance)
+
+@receiver(post_save, sender=Order)
+def send_email(sender, instance, created, **kwargs):
+    create_package_from_order.delay(instance.id)
+    
