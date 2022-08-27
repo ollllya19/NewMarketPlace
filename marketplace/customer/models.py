@@ -1,3 +1,4 @@
+from time import timezone
 from django.db import models
 from api.models import Product
 
@@ -16,8 +17,23 @@ class Customer(models.Model):
         return self.name
     
     
+class Order(models.Model):
+    created_datetime=models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    deliv_date=models.DateField(auto_now_add=True, blank=True, null=True)
+    customer=models.ForeignKey(Customer, on_delete=models.CASCADE, related_name="customer", blank=True, null=True)
+   
+    class Meta:
+        verbose_name = "Order"
+        verbose_name_plural = "Orders"
+        ordering = ["-id"]
+        
+    def __str__(self):
+        return self.created_datetime
+    
+    
 class Cart(models.Model):
-    product_id=models.ForeignKey(Product, on_delete=models.CASCADE, related_name="product")
+    order=models.ForeignKey(Order, on_delete=models.CASCADE, related_name="order_cart", blank=True, null=True)
+    product=models.ForeignKey(Product, on_delete=models.CASCADE, related_name="product_cart", blank=True, null=True)
     amount=models.IntegerField()
     
     class Meta:
@@ -29,18 +45,6 @@ class Cart(models.Model):
         return self.product_id
 
 
-class Order(models.Model):
-    created_datetime=models.DateTimeField(auto_now_add=True)
-    customer_id=models.ForeignKey(Customer, on_delete=models.CASCADE, related_name="customer", blank=True, null=True)
-    cart_id=models.OneToOneField(Cart, on_delete=models.CASCADE, related_name="cart", blank=True, null=True)
-   
-    class Meta:
-        verbose_name = "Order"
-        verbose_name_plural = "Orders"
-        ordering = ["-id"]
-        
-    def __str__(self):
-        return self.created_datetime
     
     
     
