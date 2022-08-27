@@ -1,15 +1,13 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-#from customer.models import Order
-
 
 class Farmer(models.Model):
-    user=models.OneToOneField(User, on_delete=models.CASCADE, related_name="farmer", blank=True, null=True)
-    phone = models.CharField(max_length=20, default="89872345672", blank=True, null=True)
-    name = models.CharField(max_length=20, blank=True, null=True)
-    address = models.CharField(max_length=100, blank=True, null=True)
-    date_joined=models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    user=models.OneToOneField(User, on_delete=models.CASCADE, related_name="farmer", null=True)
+    phone = models.CharField(max_length=20, default="89872345672")
+    name = models.CharField(max_length=20, blank=True)
+    address = models.CharField(max_length=100, blank=True)
+    date_joined=models.DateTimeField(auto_now_add=True)
     
     class Meta:
         verbose_name = "Farmer"
@@ -17,13 +15,13 @@ class Farmer(models.Model):
         ordering = ["-id"]
         
     def __str__(self):
-        return self.user.username
+        return self.id
 
 
 class Product(models.Model):
     title = models.CharField(max_length=20)
     description = models.CharField(max_length=500)
-    farmer = models.ForeignKey(Farmer, on_delete=models.CASCADE, blank=True, null=True)
+    farmer = models.ForeignKey(Farmer, on_delete=models.CASCADE, null=True)
     
     class Meta:
         verbose_name = "Product"
@@ -35,12 +33,11 @@ class Product(models.Model):
     
     
 class Package(models.Model):
-    ready_datetm = models.DateTimeField(auto_now_add=True, blank=True, null=True)
-    farmer = models.ForeignKey(Farmer, on_delete=models.CASCADE, related_name="farmer", blank=True, null=True)
-    order_id = models.BigIntegerField(blank=True, null=True)
-    is_accepted = models.BooleanField(blank=True, null=True)
-    is_packed = models.BooleanField(blank=True, null=True)
-    
+    ready_datetm = models.DateTimeField(auto_now_add=True)
+    farmer = models.ForeignKey(Farmer, on_delete=models.CASCADE, related_name="farmer", null=True)
+    order_id = models.BigIntegerField()
+    is_accepted = models.BooleanField(default=False)
+    is_packed = models.BooleanField(default=False)
     
     class Meta:
         verbose_name = "Package"
@@ -48,5 +45,5 @@ class Package(models.Model):
         ordering = ["-id"]
     
     def __str__(self):
-        return self.cart
+        return f"{self.order_id}"
     

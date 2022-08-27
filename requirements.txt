@@ -1,4 +1,6 @@
+celery
 Django
 djangorestframework
 flake8
+redis
 requests
