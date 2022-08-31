@@ -15,7 +15,7 @@ class Farmer(models.Model):
         ordering = ["-id"]
         
     def __str__(self):
-        return self.id
+        return f"{self.name}"
 
 
 class Product(models.Model):
@@ -29,7 +29,7 @@ class Product(models.Model):
         ordering = ["-id"]
     
     def __str__(self):
-        return self.title
+        return f"{self.title}"
     
     
 class Package(models.Model):

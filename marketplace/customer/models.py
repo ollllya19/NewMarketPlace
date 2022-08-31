@@ -14,7 +14,7 @@ class Customer(models.Model):
         ordering = ["-id"]
         
     def __str__(self):
-        return self.name
+        return f"{self.name}"
     
     
 class Order(models.Model):
@@ -30,4 +30,4 @@ class Order(models.Model):
         ordering = ["-id"]
         
     def __str__(self):
-        return self.created_datetime
+        return f"{self.created_datetime}"
