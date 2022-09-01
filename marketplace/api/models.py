@@ -21,7 +21,8 @@ class Farmer(models.Model):
 class Product(models.Model):
     title = models.CharField(max_length=20)
     description = models.CharField(max_length=500)
-    farmer = models.ForeignKey(Farmer, on_delete=models.CASCADE, null=True)
+    UOM = models.CharField(max_length=10, default="kg")
+    farmer = models.ForeignKey(Farmer, on_delete=models.CASCADE)
     
     class Meta:
         verbose_name = "Product"
@@ -34,7 +35,7 @@ class Product(models.Model):
     
 class Package(models.Model):
     ready_datetm = models.DateTimeField(auto_now_add=True)
-    farmer = models.ForeignKey(Farmer, on_delete=models.CASCADE, related_name="farmer", null=True)
+    farmer = models.ForeignKey(Farmer, on_delete=models.CASCADE, related_name="farmer")
     order_id = models.BigIntegerField()
     is_accepted = models.BooleanField(default=False)
     is_packed = models.BooleanField(default=False)

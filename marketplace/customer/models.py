@@ -19,9 +19,9 @@ class Customer(models.Model):
     
 class Order(models.Model):
     created_datetime=models.DateTimeField(auto_now_add=True)
-    deliv_date=models.DateField(auto_now_add=True)
-    customer=models.ForeignKey(Customer, on_delete=models.CASCADE, related_name="customer", null=True)
-    product=models.ForeignKey(Product, on_delete=models.CASCADE, related_name="product", null=True)
+    deliv_date=models.DateField()
+    customer=models.ForeignKey(Customer, on_delete=models.CASCADE, related_name="customer")
+    product=models.ForeignKey(Product, on_delete=models.CASCADE, related_name="product")
     amount=models.IntegerField()
    
     class Meta:
@@ -31,3 +31,19 @@ class Order(models.Model):
         
     def __str__(self):
         return f"{self.created_datetime}"
+    
+
+
+class Cart(models.Model):
+    product=models.ForeignKey(Product, on_delete=models.CASCADE, related_name="product_cart")
+    col = models.IntegerField()
+    customer=models.ForeignKey(Customer, on_delete=models.CASCADE, related_name="customer_cart")
+    
+    class Meta:
+        verbose_name = "Cart"
+        verbose_name_plural = "Carts"
+        ordering = ["-id"]
+        
+    def __str__(self):
+        return f"{self.product.title}"
+    
