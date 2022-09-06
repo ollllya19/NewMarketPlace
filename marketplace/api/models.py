@@ -3,11 +3,11 @@ from django.contrib.auth.models import User
 
 
 class Farmer(models.Model):
-    user=models.OneToOneField(User, on_delete=models.CASCADE, related_name="farmer", null=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="farmer", null=True)
     phone = models.CharField(max_length=20, default="89872345672")
     name = models.CharField(max_length=20, blank=True)
     address = models.CharField(max_length=100, blank=True)
-    date_joined=models.DateTimeField(auto_now_add=True)
+    date_joined = models.DateTimeField(auto_now_add=True)
     
     class Meta:
         verbose_name = "Farmer"
@@ -19,10 +19,10 @@ class Farmer(models.Model):
 
 
 class Product(models.Model):
-    title = models.CharField(max_length=20)
-    description = models.CharField(max_length=500)
+    title = models.CharField(max_length=20, blank=True, null=True)
+    description = models.CharField(max_length=500, blank=True, null=True)
     UOM = models.CharField(max_length=10, default="kg")
-    farmer = models.ForeignKey(Farmer, on_delete=models.CASCADE)
+    farmer = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     
     class Meta:
         verbose_name = "Product"

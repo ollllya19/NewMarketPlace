@@ -26,10 +26,10 @@ class PackagePackSerializer(serializers.ModelSerializer):
 
 
 class FarmerSerializer(serializers.ModelSerializer):
-    user=serializers.StringRelatedField(read_only=True)
+    user = serializers.StringRelatedField(read_only=True)
     
     class Meta:
-        model=Farmer
+        model = Farmer
         fields='__all__'
         
 

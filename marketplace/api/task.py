@@ -1,5 +1,4 @@
 from __future__ import absolute_import, unicode_literals
-from django.utils import timezone
 from marketplace.celery import app
 
 from customer.models import Order

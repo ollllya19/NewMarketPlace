@@ -1,10 +1,8 @@
-from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 from customer.models import Order
 from api.task import create_package_from_order
-
 
 
 @receiver(post_save, sender=Order)
