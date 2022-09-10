@@ -10,14 +10,13 @@ from django.contrib.auth.models import User
     
     
 class ProductViewSet(ModelViewSet):
-    #queryset = Product.objects.all()
-    #serializer_class = ProductSerializer
     permission_classes = [IsAuthenticated]
     
     def list(self, request):
         queryset = Product.objects.filter(farmer=request.user)
         print(queryset)
-        serializer = ProductSerializer(queryset)
+        print(ProductSerializer(queryset))
+        serializer = ProductSerializer(queryset, many=True)
         return Response(serializer.data)
     
     

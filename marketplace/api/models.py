@@ -21,8 +21,9 @@ class Farmer(models.Model):
 class Product(models.Model):
     title = models.CharField(max_length=20, blank=True, null=True)
     description = models.CharField(max_length=500, blank=True, null=True)
+    price = models.FloatField(blank=True, null=True)
     UOM = models.CharField(max_length=10, default="kg")
-    farmer = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     
     class Meta:
         verbose_name = "Product"

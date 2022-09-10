@@ -1,4 +1,3 @@
-from dataclasses import fields
 from rest_framework import serializers
 from api.models import Product, Farmer, Package
 from customer.models import Order
@@ -8,7 +7,14 @@ class ProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        fields = '__all__'
+        exclude = ['farmer']
+        
+
+class ProductsFarmerSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Product
+        exclude = ['farmer']
 
 
 class PackageAcceptSerializer(serializers.ModelSerializer):

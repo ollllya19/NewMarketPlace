@@ -14,7 +14,6 @@ class ProductViewSetService:
     def __init__(self, request=None):
         self.request = request
 
-
     def execute_get(self):
         queryset = ProductRepository.get_all()
         serializer = ProductsSerializer(queryset, many=True)
