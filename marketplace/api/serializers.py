@@ -7,16 +7,18 @@ class ProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        exclude = ['farmer']
-        
+        exclude = ['user']
+      
 
 class ProductsFarmerSerializer(serializers.ModelSerializer):
+    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
     
     class Meta:
         model = Product
-        exclude = ['farmer']
+        fields = '__all__'
 
 
+# not editted yet
 class PackageAcceptSerializer(serializers.ModelSerializer):
     
     class Meta:

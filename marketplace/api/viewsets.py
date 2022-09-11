@@ -4,21 +4,46 @@ from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIV
 from rest_framework.views import APIView
 from rest_framework .permissions import IsAuthenticated
 
-from api.serializers import ProductSerializer, FarmerSerializer, PackageSerializer, PackageAcceptSerializer, PackagePackSerializer
+from api.serializers import ProductSerializer, ProductsFarmerSerializer, FarmerSerializer, PackageSerializer, PackageAcceptSerializer, PackagePackSerializer
 from api.models import Product, Farmer, Package
-from django.contrib.auth.models import User
     
     
 class ProductViewSet(ModelViewSet):
     permission_classes = [IsAuthenticated]
     
     def list(self, request):
-        queryset = Product.objects.filter(farmer=request.user)
-        print(queryset)
-        print(ProductSerializer(queryset))
+        queryset = Product.objects.filter(user=request.user)
         serializer = ProductSerializer(queryset, many=True)
         return Response(serializer.data)
     
+    def create(self, request):
+        product = Product(
+            title=request.data['title'],
+            description=request.data['description'],
+            price=request.data['price'],
+            UOM=request.data['UOM'],
+            user=request.user)
+        product.save()
+        serializer = ProductsFarmerSerializer(product)
+        return Response(serializer.data)
+    
+    def retrieve(self, request, pk=None):
+        product = Product.objects.get(id=pk)
+        serializer = ProductSerializer(product)
+        return Response(serializer.data)
+    
+    def update(self, request, pk=None):
+        product = Product.objects.get(id=pk)
+        serializer = ProductSerializer(data=request.data, instance=product)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+    
+    def destroy(self, request, pk=None):
+        product = Product.objects.get(id=pk)
+        product.delete()
+        return Response({'delete': 'Object was deleted'})
+        
     
 class PackagesView(APIView):
     permission_classes = [IsAuthenticated]
