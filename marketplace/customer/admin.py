@@ -4,11 +4,11 @@ from customer.models import Customer, Order, Cart
 
 
 class CustomerAdmin(admin.ModelAdmin):
-    list_display = ('id', 'phone', 'name', 'date_joined')
+    list_display = ('id', 'phone', 'name', 'joined_at')
     list_display_links = ('id', 'name')
     search_fields = ('phone', 'name')
     list_editable = ('phone',)
-    list_filter = ('phone', 'name', 'date_joined')
+    list_filter = ('phone', 'name', 'joined_at')
 
 
 class CartAdmin(admin.ModelAdmin):
@@ -20,7 +20,7 @@ class CartAdmin(admin.ModelAdmin):
     
     
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('id', 'created_datetime', 'deliv_date', 'customer', 'product', 'amount')
+    list_display = ('id', 'created_datetime', 'deliv_date', 'customer', 'product', 'col')
     list_display_links = ('id',)
     search_fields = ('product', 'customer')
     #list_editable = ('amount',)
