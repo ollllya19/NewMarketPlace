@@ -82,4 +82,3 @@ class FarmerProfileDetailView(RetrieveUpdateDestroyAPIView):
     serializer_class = FarmerSerializer
     permission_classes = [IsAuthenticated]
     
-    

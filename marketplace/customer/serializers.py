@@ -8,7 +8,6 @@ class AllProductsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = '__all__'
-        depth = 1
         
 
 class CartSerializer(serializers.ModelSerializer):
@@ -16,4 +15,11 @@ class CartSerializer(serializers.ModelSerializer):
     class Meta:
         model = Cart
         fields = ['product', 'col']
-        depth = 1
+
+
+class CartCreateSerializer(serializers.ModelSerializer):
+    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+    
+    class Meta:
+        model = Cart
+        fields = '__all__'

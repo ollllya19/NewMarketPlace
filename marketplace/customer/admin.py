@@ -12,11 +12,11 @@ class CustomerAdmin(admin.ModelAdmin):
 
 
 class CartAdmin(admin.ModelAdmin):
-    list_display = ('id', 'product', 'col', 'customer')
+    list_display = ('id', 'product', 'col', 'user')
     list_display_links = ('id', 'product')
     search_fields = ('product',)
     list_editable = ('col',)
-    list_filter = ('product', 'col', 'customer')
+    list_filter = ('product', 'col', 'user')
     
     
 class OrderAdmin(admin.ModelAdmin):
