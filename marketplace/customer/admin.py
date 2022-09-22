@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from customer.models import Customer, Order, Cart, Review
+from customer.models import Customer, Order, OrderItem, Cart, Review
 
 
 class CustomerAdmin(admin.ModelAdmin):
@@ -20,11 +20,18 @@ class CartAdmin(admin.ModelAdmin):
     
     
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('id', 'created_datetime', 'deliv_date', 'customer', 'product', 'col')
+    list_display = ('id', 'created_datetime', 'deliv_date', 'user', 'address')
     list_display_links = ('id',)
-    search_fields = ('product', 'customer')
-    list_filter = ('product', 'customer', 'deliv_date')
+    search_fields = ('customer',)
+    list_filter = ('user', 'deliv_date')
 
+
+class OrderItemAdmin(admin.ModelAdmin):
+    list_display = ('id', 'order', 'product', 'col')
+    list_display_links = ('id',)
+    search_fields = ('order',)
+    list_filter = ('order', 'product')
+    
 
 class ReviewAdmin(admin.ModelAdmin):
     list_display = ('id', 'customer', 'product', 'text', 'rating', 'created_at', 'updated_at')
@@ -35,5 +42,6 @@ class ReviewAdmin(admin.ModelAdmin):
 
 admin.site.register(Customer, CustomerAdmin)
 admin.site.register(Order, OrderAdmin)
+admin.site.register(OrderItem, OrderItemAdmin)
 admin.site.register(Cart, CartAdmin)
 admin.site.register(Review, ReviewAdmin)

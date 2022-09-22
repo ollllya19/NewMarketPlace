@@ -22,11 +22,9 @@ class Customer(models.Model):
 class Order(models.Model):
     created_datetime = models.DateTimeField(auto_now_add=True)
     deliv_date = models.DateField()
-    customer = models.ForeignKey(
-        Customer, on_delete=models.CASCADE, related_name="customer")
-    product = models.ForeignKey(
-        Product, on_delete=models.CASCADE, related_name="product")
-    col = models.IntegerField()
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE)
+    address = models.CharField(max_length=100)
    
     class Meta:
         verbose_name = "Order"
@@ -34,30 +32,29 @@ class Order(models.Model):
         ordering = ["-id"]
         
     def __str__(self):
-        return f"{self.created_datetime}"
+        return f"{self.id}"
     
-
-"""
+    
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
-    product = models.ForeignKey(Customer, on_delete=models.CASCADE)
-    col = models.IntegerField(default=0)
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    col = models.IntegerField(default=1)
     
     class Meta:
         verbose_name = "OrderItem"
         verbose_name_plural = "OrderItems"
         ordering = ["-id"]
         
+        unique_together = ('order', 'product')
+        
     def __str__(self):
         return f"{self.id}"
-"""
 
 
 class Cart(models.Model):
     product = models.ForeignKey(
         Product, on_delete=models.CASCADE, related_name="product_cart")
-    col = models.IntegerField(default=0)
+    col = models.IntegerField(default=1)
     user = models.ForeignKey(
         User, on_delete=models.CASCADE, blank=True, null=True)
     

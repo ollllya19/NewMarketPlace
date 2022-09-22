@@ -1,10 +1,10 @@
 from rest_framework.response import Response
 from rest_framework.viewsets import ReadOnlyModelViewSet, ModelViewSet
 from rest_framework .permissions import IsAuthenticated
-from .serializers import AllProductsSerializer, CartSerializer, CartCreateSerializer
+from .serializers import AllProductsSerializer, CartSerializer, CartCreateSerializer, OrderSerializer
 
 from api.models import Product
-from .models import Cart
+from .models import Cart, Order, OrderItem
     
     
 class AllProductsViewSet(ReadOnlyModelViewSet):
@@ -35,18 +35,40 @@ class CartsViewSet(ModelViewSet):
         serializer = CartSerializer(cart_item)
         return Response(serializer.data)
     
-    """
+    def destroy(self, request, pk=None):
+        cart_item = Cart.objects.get(id=pk)
+        cart_item.delete()
+        print("Object was deleted")
+        return Response({'delete': 'Object was deleted'})
     
-    def update(self, request, pk=None):
-        product = Product.objects.get(id=pk)
-        serializer = ProductSerializer(data=request.data, instance=product)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
+
+class OrderViewSet(ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    
+    def list(self, request):
+        order_queryset = Order.objects.filter(user=request.user)
+        order_serializer = OrderSerializer(order_queryset, many=True)
+        return Response(order_serializer.data)
+    
+    def create(self, request):
+        # order creation
+        order = Order(
+            deliv_date=request.data['deliv_date'],
+            user=request.user,
+            address=request.data['address']
+        )
+        order.save()
+        
+        # order items creation
+        products = request.data['products']
+        for product_item in products:
+            new_order_item = OrderItem(
+                order=Order.objects.get(id=order.id),
+                product=Product.objects.get(id=product_item['id']),
+                col=product_item['col']
+            )
+            new_order_item.save()
+        
+        serializer = OrderSerializer(order)
         return Response(serializer.data)
     
-    def destroy(self, request, pk=None):
-        product = Product.objects.get(id=pk)
-        product.delete()
-        return Response({'delete': 'Object was deleted'})
-     
-    """
