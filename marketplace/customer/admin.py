@@ -20,7 +20,7 @@ class CartAdmin(admin.ModelAdmin):
     
     
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('id', 'created_datetime', 'deliv_date', 'user', 'address')
+    list_display = ('id', 'created_at', 'deliv_date', 'user', 'address')
     list_display_links = ('id',)
     search_fields = ('customer',)
     list_filter = ('user', 'deliv_date')

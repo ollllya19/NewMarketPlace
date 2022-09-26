@@ -17,7 +17,12 @@ class CartsViewSet(ModelViewSet):
     permission_classes = [IsAuthenticated]
     
     def list(self, request):
-        queryset = Cart.objects.filter(user=request.user)
+        queryset = (
+            Cart.objects
+            .filter(user=request.user)
+            #.values_list('product', 'col')
+        )
+        
         serializer = CartSerializer(queryset, many=True)
         return Response(serializer.data)
     
@@ -25,13 +30,17 @@ class CartsViewSet(ModelViewSet):
         cart_item = Cart(
             product=Product.objects.get(id=request.data['product']),
             col=request.data['col'],
-            user=request.user)
+            user=request.user
+        )
         cart_item.save()
         serializer = CartCreateSerializer(cart_item)
         return Response(serializer.data)
     
     def retrieve(self, request, pk=None):
-        cart_item = Cart.objects.get(id=pk)
+        cart_item = (
+            Cart.objects.get(id=pk)
+            #.values('product', 'col')
+        )
         serializer = CartSerializer(cart_item)
         return Response(serializer.data)
     

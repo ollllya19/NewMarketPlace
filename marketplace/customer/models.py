@@ -20,7 +20,7 @@ class Customer(models.Model):
     
     
 class Order(models.Model):
-    created_datetime = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True)
     deliv_date = models.DateField()
     user = models.ForeignKey(
         User, on_delete=models.CASCADE)

@@ -39,7 +39,7 @@ class Product(models.Model):
     
     
 class Package(models.Model):
-    ready_datetm = models.DateTimeField(auto_now_add=True)
+    ready_at = models.DateTimeField(auto_now_add=True)
     farmer = models.ForeignKey(Farmer, on_delete=models.CASCADE, related_name="farmer")
     order_id = models.BigIntegerField()
     is_accepted = models.BooleanField(default=False)
